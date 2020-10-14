@@ -2,9 +2,12 @@ package com.example.mapper;
 
 import com.baomidou.mybatisplus.core.conditions.query.QueryWrapper;
 import com.baomidou.mybatisplus.core.metadata.IPage;
+import com.baomidou.mybatisplus.core.toolkit.Constants;
 import com.baomidou.mybatisplus.extension.plugins.pagination.Page;
 import com.example.entity.Post;
 import com.baomidou.mybatisplus.core.mapper.BaseMapper;
+import com.example.vo.PostVo;
+import org.apache.ibatis.annotations.Param;
 import org.springframework.stereotype.Component;
 
 /**
@@ -18,5 +21,5 @@ import org.springframework.stereotype.Component;
 @Component
 public interface PostMapper extends BaseMapper<Post> {
 
-    IPage selectPost(Page page, QueryWrapper wrapper);
+    IPage<PostVo> selectPost(Page page, @Param(Constants.WRAPPER) QueryWrapper wrapper);
 }

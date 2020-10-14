@@ -1,13 +1,14 @@
 # DataSource Config
 spring:
   datasource:
-    driver-class-name: com.mysql.cj.jdbc.Driver
-    url: jdbc:mysql://localhost:3306/eblog?useUnicode=true&useSSL=false&characterEncoding=utf8&serverTimezone=UTC
+    #driver-class-name: com.mysql.cj.jdbc.Driver
+    driver-class-name: com.p6spy.engine.spy.P6SpyDriver
+    url: jdbc:p6spy:mysql://localhost:3306/eblog?useUnicode=true&useSSL=false&characterEncoding=utf8&serverTimezone=UTC
     username: root
     password: 123456
   freemarker:
     settings:
-      classic_compatible: true #´¦Àí¿ÕÖµ
+      classic_compatible: true #ï¿½ï¿½ï¿½ï¿½ï¿½Öµ
       datetime_format: yyyy-MM-dd HH:mm
       number_format: 0.##
 mybatis-plus:

@@ -10,7 +10,6 @@ public class PostVo extends Post {
     private String authorName;
     private String authorAvatar;
 
-    private Long categoryId;
     private String categoryName;
 
 }

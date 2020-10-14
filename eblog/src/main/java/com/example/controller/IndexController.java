@@ -22,6 +22,7 @@ public class IndexController extends BaseController{
 
         //参数（分页信息  分类  置顶  用户  精选  排序）
         IPage results = postService.paging(page,null,null,null,null,"created");
+
         req.setAttribute("pageData",results);
         req.setAttribute("currentCategoryId",0);
         return "index";
