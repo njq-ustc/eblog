@@ -49,6 +49,8 @@
         </div>
         <div class="fly-list-badge">
             <!--<span class="layui-badge layui-bg-red">精帖</span>-->
+            <#if post.recommend><span class="layui-badge layui-bg-red">精帖</span></#if>
+            <#if post.level gt 0><span class="layui-badge layui-bg-black">置顶</span></#if>
         </div>
     </li>
 </#macro>

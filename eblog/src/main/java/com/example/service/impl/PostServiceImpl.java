@@ -40,4 +40,10 @@ public class PostServiceImpl extends ServiceImpl<PostMapper, Post> implements Po
                 ;
         return postMapper.selectPost(page,wrapper);
     }
+
+    @Override
+    public PostVo selectOnePost(QueryWrapper<Post> wrapper) {
+
+        return postMapper.selectOnePost(wrapper);
+    }
 }

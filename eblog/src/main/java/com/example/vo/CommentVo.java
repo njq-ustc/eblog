@@ -1,14 +1,12 @@
 package com.example.vo;
 
-import com.example.entity.Post;
+import com.example.entity.Comment;
 import lombok.Data;
 
 @Data
-public class PostVo extends Post {
+public class CommentVo extends Comment {
     private Long authorId;
     private String authorName;
     private String authorAvatar;
-
-    private String categoryName;
 
 }
