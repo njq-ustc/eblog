@@ -3,6 +3,7 @@ package com.example.config;
 import com.baomidou.mybatisplus.core.conditions.query.QueryWrapper;
 import com.example.entity.Category;
 import com.example.service.CategoryService;
+import com.example.service.PostService;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.boot.ApplicationArguments;
 import org.springframework.boot.ApplicationRunner;
@@ -18,6 +19,9 @@ public class ContextStartup implements ApplicationRunner, ServletContextAware {
     @Autowired
     CategoryService categoryService;
 
+    @Autowired
+    PostService postService;
+
     ServletContext servletContext;
     @Override
     public void run(ApplicationArguments args) throws Exception {
@@ -30,6 +34,8 @@ public class ContextStartup implements ApplicationRunner, ServletContextAware {
 //        }
 
         servletContext.setAttribute("categorys", categories);
+
+        postService.initWeekRank();
     }
 
 
