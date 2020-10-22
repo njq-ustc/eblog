@@ -73,7 +73,7 @@ public class PostServiceImpl extends ServiceImpl<PostMapper, Post> implements Po
             String key = "day:rank:"+DateUtil.format(post.getCreated(), DatePattern.PURE_DATE_FORMAT);
             redisUtil.zSet(key,post.getId(),post.getCommentCount());
 
-            //7天后自动过期(15号发表，存活时间7-（当前时间-15）)
+            //7天后自动过期(15号发表，存活时间=7-（当前时间-15）)
             long between = DateUtil.between(new Date(),post.getCreated(), DateUnit.DAY);
             long expireTime = (7-between)*24*60*60;
 
