@@ -23,7 +23,7 @@
 
 
     <script>
-        layui.cache.page = '';
+        // layui.cache.page = '';
         layui.cache.user = {
             username: '游客'
             ,uid: -1
