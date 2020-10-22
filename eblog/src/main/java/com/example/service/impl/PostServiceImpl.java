@@ -87,6 +87,42 @@ public class PostServiceImpl extends ServiceImpl<PostMapper, Post> implements Po
         this.zunionAndStoreLast7DayForWeekRank();
     }
 
+    @Override
+    public void incrCommentCountAndUnionForWeekRank(long postId, boolean isIncr) {
+        String currentKey = "day:rank:" + DateUtil.format(new Date(),DatePattern.PURE_DATE_FORMAT);
+        redisUtil.zIncrementScore(currentKey,postId,isIncr?1:-1);
+        Post post = this.getById(postId);
+
+        //7天后自动过期(15号发表，存活时间=7-（当前时间-15）)
+        long between = DateUtil.between(new Date(),post.getCreated(), DateUnit.DAY);
+        long expireTime = (7-between)*24*60*60;
+
+        //缓存最新评论的文章的基本信息（文章标题，id，评论数量，作者）
+        this.hashCachePostIdAndTitle(post,expireTime);
+
+        //重新做并集
+        this.zunionAndStoreLast7DayForWeekRank();
+
+    }
+
+    @Override
+    public void putViewCount(PostVo vo) {
+        String key = "rank:post:"+vo.getId();
+
+        //1、从缓存中获取viewCount
+        Integer viewCount = (Integer) redisUtil.hget(key,"post:viewCount");
+
+        //如果缓存中没有，就先从实体中获取，再加1
+        if(viewCount != null){//缓存中有
+            vo.setViewCount(viewCount + 1);
+        }else {//缓存中没有，从数据库获取，再加1
+            vo.setViewCount(vo.getViewCount() + 1);
+        }
+
+        //加完的viewCount同步回缓存
+        redisUtil.hset(key,"post:viewCount",vo.getViewCount());
+    }
+
     /**
      * 本周合并每日评论数量操作
      */
@@ -115,6 +151,7 @@ public class PostServiceImpl extends ServiceImpl<PostMapper, Post> implements Po
             redisUtil.hset(key,"post:id",post.getId(),expireTime);
             redisUtil.hset(key,"post:title",post.getTitle(),expireTime);
             redisUtil.hset(key,"post:commentCount",post.getCommentCount(),expireTime);
+            redisUtil.hset(key, "post:viewCount", post.getViewCount(), expireTime);
         }
     }
 }
