@@ -1,22 +1,29 @@
 package com.example.entity;
 
+import com.baomidou.mybatisplus.annotation.TableName;
 import com.example.entity.BaseEntity;
 import java.time.LocalDateTime;
+import java.util.Date;
+
 import lombok.Data;
 import lombok.EqualsAndHashCode;
 import lombok.experimental.Accessors;
 
+import javax.validation.constraints.Email;
+import javax.validation.constraints.NotBlank;
+
 /**
  * <p>
- * 
+ *
  * </p>
  *
  * @author 公众号：java思维导图
- * @since 2020-10-11
+ * @since 2019-11-17
  */
 @Data
 @EqualsAndHashCode(callSuper = true)
 @Accessors(chain = true)
+@TableName("user")
 public class User extends BaseEntity {
 
     private static final long serialVersionUID = 1L;
@@ -24,16 +31,136 @@ public class User extends BaseEntity {
     /**
      * 昵称
      */
+    @NotBlank(message = "用户名不能为空")
     private String username;
+
+    public static long getSerialVersionUID() {
+        return serialVersionUID;
+    }
+
+    public String getUsername() {
+        return username;
+    }
+
+    public void setUsername(String username) {
+        this.username = username;
+    }
+
+    public String getPassword() {
+        return password;
+    }
+
+    public void setPassword(String password) {
+        this.password = password;
+    }
+
+    public String getEmail() {
+        return email;
+    }
+
+    public void setEmail(String email) {
+        this.email = email;
+    }
+
+    public String getMobile() {
+        return mobile;
+    }
+
+    public void setMobile(String mobile) {
+        this.mobile = mobile;
+    }
+
+    public Integer getPoint() {
+        return point;
+    }
+
+    public void setPoint(Integer point) {
+        this.point = point;
+    }
+
+    public String getSign() {
+        return sign;
+    }
+
+    public void setSign(String sign) {
+        this.sign = sign;
+    }
+
+    public String getGender() {
+        return gender;
+    }
+
+    public void setGender(String gender) {
+        this.gender = gender;
+    }
+
+    public String getWechat() {
+        return wechat;
+    }
+
+    public void setWechat(String wechat) {
+        this.wechat = wechat;
+    }
+
+    public Integer getVipLevel() {
+        return vipLevel;
+    }
+
+    public void setVipLevel(Integer vipLevel) {
+        this.vipLevel = vipLevel;
+    }
+
+    public Date getBirthday() {
+        return birthday;
+    }
+
+    public void setBirthday(Date birthday) {
+        this.birthday = birthday;
+    }
+
+    public String getAvatar() {
+        return avatar;
+    }
+
+    public void setAvatar(String avatar) {
+        this.avatar = avatar;
+    }
+
+    public Integer getPostCount() {
+        return postCount;
+    }
+
+    public void setPostCount(Integer postCount) {
+        this.postCount = postCount;
+    }
+
+    public Integer getCommentCount() {
+        return commentCount;
+    }
+
+    public void setCommentCount(Integer commentCount) {
+        this.commentCount = commentCount;
+    }
+
+    public Date getLasted() {
+        return lasted;
+    }
+
+    public void setLasted(Date lasted) {
+        this.lasted = lasted;
+    }
 
     /**
      * 密码
      */
+    @NotBlank(message = "密码名不能为空")
     private String password;
 
     /**
      * 邮件
      */
+    @Email
+    @NotBlank(message = "邮箱不能为空")
     private String email;
 
     /**
@@ -69,7 +196,7 @@ public class User extends BaseEntity {
     /**
      * 生日
      */
-    private LocalDateTime birthday;
+    private Date birthday;
 
     /**
      * 头像
@@ -89,7 +216,7 @@ public class User extends BaseEntity {
     /**
      * 最后的登陆时间
      */
-    private LocalDateTime lasted;
+    private Date lasted;
 
 
 }

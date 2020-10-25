@@ -11,6 +11,7 @@
         <link rel="stylesheet" href="/res/css/global.css">
 
         <script src="/res/layui/layui.js"></script>
+        <script src="/res/js/jquery.min.js"></script>
     </head>
     <body>
 
