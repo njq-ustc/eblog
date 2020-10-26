@@ -55,7 +55,7 @@ public class ViewCountSyncTask {
             ids.stream().forEach((id) -> {
                 //同步数据库后删除缓存数据，下次访问时从数据库中拿最新的值放入缓存当中
                 //redisUtil.hdel("rank:post:" + id, "post:viewCount");
-                System.out.println(id + "---------------------->同步成功");
+                //System.out.println(id + "---------------------->同步成功");
             });
         }
     }
