@@ -1,11 +1,14 @@
 package com.example.controller;
 
 import cn.hutool.core.util.StrUtil;
+import cn.hutool.crypto.SecureUtil;
 import com.example.common.lang.Result;
 import com.example.entity.User;
 import com.example.service.UserService;
 import com.example.util.ValidationUtil;
 import com.google.code.kaptcha.Producer;
+import org.apache.shiro.SecurityUtils;
+import org.apache.shiro.authc.*;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Controller;
 import org.springframework.web.bind.annotation.GetMapping;
