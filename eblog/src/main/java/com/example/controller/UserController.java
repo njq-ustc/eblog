@@ -1,15 +1,20 @@
 package com.example.controller;
 
 
+import cn.hutool.core.map.MapUtil;
 import cn.hutool.core.util.StrUtil;
 import cn.hutool.crypto.SecureUtil;
 import com.baomidou.mybatisplus.core.conditions.query.QueryWrapper;
+import com.baomidou.mybatisplus.core.metadata.IPage;
 import com.example.common.lang.Result;
 import com.example.entity.Post;
 import com.example.entity.User;
+import com.example.entity.UserMessage;
+import com.example.service.UserMessageService;
 import com.example.service.UserService;
 import com.example.shiro.AccountProfile;
 import com.example.util.UploadUtil;
+import com.example.vo.UserMessageVo;
 import org.apache.shiro.SecurityUtils;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Controller;
@@ -19,7 +24,9 @@ import com.example.controller.BaseController;
 import org.springframework.web.multipart.MultipartFile;
 
 import java.io.IOException;
+import java.util.ArrayList;
 import java.util.List;
+import java.util.Map;
 
 /**
  * <p>
@@ -36,6 +43,9 @@ public class UserController extends BaseController {
 
     @Autowired
     UploadUtil uploadUtil;
+
+    @Autowired
+    UserMessageService messageService;
 
     @GetMapping("/user/home")
     public String home(){
@@ -123,5 +133,74 @@ public class UserController extends BaseController {
 
         return Result.success().action("/user/set#pass");
 
+    }
+
+    @GetMapping("/user/index")
+    public String index(){
+        return "/user/index";
+    }
+
+    @GetMapping("/user/mess")
+    public String mess() {
+        IPage page = messageService.paging(getPage(), new QueryWrapper<UserMessage>()
+                .eq("to_user_id", getProfileId())
+                .orderByDesc("created")
+        );
+
+//        // 把消息改成已读状态
+//        List<Long> ids = new ArrayList<>();
+//        for(UserMessageVo messageVo : page.getRecords()) {
+//            if(messageVo.getStatus() == 0) {
+//                ids.add(messageVo.getId());
+//            }
+//        }
+//        // 批量修改成已读
+//        messageService.updateToReaded(ids);
+
+        req.setAttribute("pageData", page);
+        return "/user/mess";
+    }
+
+    @ResponseBody
+    @PostMapping("/msg/remove/")
+    public Result msgRemove(Long id,
+                            @RequestParam(defaultValue = "false") Boolean all) {
+
+        boolean remove = messageService.remove(new QueryWrapper<UserMessage>()
+                .eq("to_user_id", getProfileId())
+                .eq(!all, "id", id));
+
+        return remove ? Result.success(null) : Result.fail("删除失败");
+    }
+
+    @ResponseBody
+    @RequestMapping("/message/nums/")
+    public Map msgNums() {
+
+        int count = messageService.count(new QueryWrapper<UserMessage>()
+                .eq("to_user_id", getProfileId())
+                .eq("status", "0")
+        );
+        return MapUtil.builder("status", 0)
+                .put("count", count).build();
+    }
+
+    @ResponseBody
+    @GetMapping("/user/public")
+    public Result userP() {
+        IPage page = postService.page(getPage(), new QueryWrapper<Post>()
+                .eq("user_id", getProfileId())
+                .orderByDesc("created"));
+
+        return Result.success(page);
+    }
+
+    @ResponseBody
+    @GetMapping("/user/collection")
+    public Result collection() {
+        IPage page = postService.page(getPage(), new QueryWrapper<Post>()
+                .inSql("id", "SELECT post_id FROM user_collection where user_id = " + getProfileId())
+        );
+        return Result.success(page);
     }
 }
