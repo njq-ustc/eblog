@@ -4,6 +4,8 @@ package com.example.controller;
 import com.baomidou.mybatisplus.extension.plugins.pagination.Page;
 import com.example.service.CommentService;
 import com.example.service.PostService;
+import com.example.service.UserCollectionService;
+import com.example.service.UserMessageService;
 import com.example.shiro.AccountProfile;
 import org.apache.catalina.security.SecurityUtil;
 import org.apache.shiro.SecurityUtils;
@@ -24,6 +26,12 @@ public class BaseController {
 
     @Autowired
     CommentService commentService;
+
+    @Autowired
+    UserMessageService messageService;
+
+    @Autowired
+    UserCollectionService collectionService;
 
     public Page getPage(){
         //当前页
