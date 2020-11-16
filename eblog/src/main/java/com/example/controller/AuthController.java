@@ -109,4 +109,6 @@ public class AuthController extends BaseController {
         SecurityUtils.getSubject().logout();
         return "redirect:/";
     }
+
+
 }
